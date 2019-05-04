@@ -18,8 +18,8 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public int columns = 8;
-    public int rows = 8;
+    public int columns = 24;
+    public int rows = 24;
     public Count wallCount = new Count(5, 9);
     public Count foodCount = new Count(1, 5);
     public GameObject exit;
@@ -70,6 +70,11 @@ public class BoardManager : MonoBehaviour
         return randomPosition;
     }
 
+    void LayoutDebugging(GameObject newObject, Vector3 curPos)
+    {
+        Instantiate(newObject, curPos, Quaternion.identity);
+    }
+
     void LayoutObjectAtRandom(GameObject[] objectArray, int minimum, int maximum)
     {
         int objectCount = Random.Range(minimum, maximum + 1);
@@ -90,7 +95,23 @@ public class BoardManager : MonoBehaviour
         LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
         int enemyCount = (int)Mathf.Log(Level, 2f);
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
-        Instantiate(exit, new Vector3(columns-1, rows-1, 0f), Quaternion.identity);
+        Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+        /*
+        // DEVELOPING
+        LayoutDebugging(enemyTiles[0], new Vector3(8f, 8f, 0f));
+        LayoutDebugging(enemyTiles[0], new Vector3(7f, 8f, 0f));
+        LayoutDebugging(enemyTiles[0], new Vector3(6f, 8f, 0f));
+        LayoutDebugging(enemyTiles[0], new Vector3(5f, 8f, 0f));
+        LayoutDebugging(enemyTiles[0], new Vector3(4f, 8f, 0f));
+        LayoutDebugging(wallTiles[0], new Vector3(0f, 1f, 0f));
+        LayoutDebugging(wallTiles[0], new Vector3(2f, 1f, 0f));
+        LayoutDebugging(wallTiles[0], new Vector3(0f, 2f, 0f));
+        LayoutDebugging(wallTiles[0], new Vector3(2f, 2f, 0f));
+        LayoutDebugging(wallTiles[0], new Vector3(0f, 3f, 0f));
+        LayoutDebugging(wallTiles[0], new Vector3(0f, 4f, 0f));
+        LayoutDebugging(wallTiles[0], new Vector3(1f, 4f, 0f));
+        LayoutDebugging(wallTiles[0], new Vector3(2f, 4f, 0f));
+        */
     }
 
     // Start is called before the first frame update

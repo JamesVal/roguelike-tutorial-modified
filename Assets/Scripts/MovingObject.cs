@@ -27,12 +27,12 @@ public abstract class MovingObject : MonoBehaviour
 
         if (xDir != 0)
         {
-            boxVector.x = (xDir < 0) ? .5f * -1f : .5f;
+            boxVector.x = (xDir < 0) ? .45f * -1f : .45f;
         }
 
         if (yDir != 0)
         {
-            boxVector.y = (yDir < 0) ? .5f * -1f : .5f;
+            boxVector.y = (yDir < 0) ? .45f * -1f : .45f;
         }
 
 
@@ -42,11 +42,11 @@ public abstract class MovingObject : MonoBehaviour
 
         if (hit.transform == null)
         {
-            Debug.Log("MOVE" + end);
+            //Debug.Log("MOVE" + end);
             StartCoroutine(SmoothMovement(end));
             return true;
         }
-        else if (hit.distance > inverseMoveTime * Time.deltaTime)
+        else if (hit.distance > .1f)
         {
             //Debug.Log("CLOSE MOVE");
             Debug.Log("Pos" + transform.position);
@@ -56,7 +56,7 @@ public abstract class MovingObject : MonoBehaviour
             StartCoroutine(SmoothMovement(end));
             return true;
         }
-
+        Debug.Log("Hit Dist:" + hit.distance);
         Debug.Log("NO MOVE");
         return false;
     }   
@@ -68,7 +68,6 @@ public abstract class MovingObject : MonoBehaviour
         //while (sqrRemainingDistance > float.Epsilon)
         //{
             Vector3 newPosition = Vector3.MoveTowards(rigidBody.position, end, inverseMoveTime * Time.deltaTime);
-            if (newPosition.y < 0) Debug.Log("Negative?" + newPosition.y);
             rigidBody.MovePosition(newPosition);
             //sqrRemainingDistance = (transform.position - end).sqrMagnitude;
             yield return null;

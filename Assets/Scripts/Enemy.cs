@@ -43,9 +43,10 @@ public class Enemy : MovingObject
 
     public void MoveEnemy()
     {
-        int xDir = 0;
-        int yDir = 0;
+        Vector2 nextDirection;
+        nextDirection = pathFinder.GetNextDirection();
 
+        /*
         if (Mathf.Abs(target.position.x - transform.position.x) <= .45f)
         {
             if (Mathf.Abs(target.position.y - transform.position.y) > .45f)
@@ -59,8 +60,10 @@ public class Enemy : MovingObject
             xDir = target.position.x > transform.position.x ? 1 : -1;
             Debug.Log("X");
         }
+        */
 
-        //AttemptMove<Player>(xDir, yDir);
+        AttemptMove<Player>((int)nextDirection.x, (int)nextDirection.y);
+        //AttemptMove<Player>((int)nextDirection.x, 0);
     }
 
     protected override void OnCantMove<T>(T component)
