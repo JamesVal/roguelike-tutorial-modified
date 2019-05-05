@@ -29,33 +29,29 @@ public class Node
     {
         String printedStr = "";
 
-        Debug.Log("Origin: " + m_origin.x + "," + m_origin.y);
-        Debug.Log("Connected to: ");
+        //Debug.Log("Origin: " + m_origin.x + "," + m_origin.y);
+        //Debug.Log("Connected to: ");
         for (int i = 0; i < possiblePaths.Count; i++)
         {
             Vector2 connectedOrigin = possiblePaths[i].getOrigin();
             printedStr += "(" + connectedOrigin.x + "," + connectedOrigin.y + ")";
             
         }
-        Debug.Log(printedStr);
+        //Debug.Log(printedStr);
     }
 }
 
 public class PathFinder : MonoBehaviour
 {
-    public LayerMask blockingLayer;
-    public float moveTime = 0.1f;
-
+    private LayerMask blockingLayer;
     private List<Node> allNodes = new List<Node>();
     private List<Node> pathToEnd = new List<Node>();
-    private int pathLength = 0;
     private Node startNode;
     private Node endNode;
     private Transform target;
     private LineRenderer pathRenderer;
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D boxCollider;
-    private float inverseMoveTime;
 
     public void Initialize()
     {
@@ -68,7 +64,6 @@ public class PathFinder : MonoBehaviour
         pathRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
         pathRenderer.positionCount = 2;
         pathRenderer.widthMultiplier = 0.2f;
-        inverseMoveTime = 1f / moveTime;
 
         GenerateGrid(24, 24);
         ConnectNodes();
@@ -158,10 +153,7 @@ public class PathFinder : MonoBehaviour
             curNode.levelFromStart = curDistance;
 
             if ((curNode.m_origin.x == endNode.m_origin.x) && (curNode.m_origin.y == endNode.m_origin.y))
-            {
-                Debug.Log("FOUND END " + curNode.levelFromStart.ToString());
                 return true;
-            }
 
             for (int eachInnerNodeIdx = 0; eachInnerNodeIdx < curNode.possiblePaths.Count; eachInnerNodeIdx++)
             {
@@ -179,8 +171,6 @@ public class PathFinder : MonoBehaviour
         }
 
         if (nextNodes.Count > 0) return TraversePath(nextNodes, curDistance + 1);
-
-        Debug.Log("NO PATH");
 
         return false;
     }
@@ -247,10 +237,13 @@ public class PathFinder : MonoBehaviour
             else if ((pathToEnd[1].m_origin.y - transform.position.y) > .2f) retVal.y = 1;
             else if ((pathToEnd[1].m_origin.y - transform.position.y) < (.2f * -1)) retVal.y = -1;
         }
-
-        //Debug.Log("A" + pathToEnd[1].m_origin.x);
-        //Debug.Log("B" + transform.position.x);
-        //Debug.Log("Direction" + retVal);
+        else if (pathToEnd.Count == 1)
+        {
+            if ((target.position.x - transform.position.x) > .2f) retVal.x = 1;
+            else if ((target.position.x - transform.position.x) < (.2f * -1)) retVal.x = -1;
+            else if ((target.position.y - transform.position.y) > .2f) retVal.y = 1;
+            else if ((target.position.y - transform.position.y) < (.2f * -1)) retVal.y = -1;
+        }
 
         return retVal;
     }
@@ -265,10 +258,7 @@ public class PathFinder : MonoBehaviour
     void UpdatePath()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-
-        //Debug.Log("Target:"+ target.position);
         pathToEnd.Clear();
-
         SetStartEnd(transform.position, target.position);
         ClearNodeLevels();
         pathRenderer.positionCount = 0;
@@ -276,8 +266,9 @@ public class PathFinder : MonoBehaviour
         if (TraversePath(new List<Node> { startNode }, 0))
         {
             BuildPath(pathToEnd, endNode);
-            //PrintPath(pathToEnd);
 
+            /*
+            PrintPath(pathToEnd);
             pathRenderer.positionCount = pathToEnd.Count;
             if (pathToEnd.Count > 0)
             {
@@ -286,6 +277,7 @@ public class PathFinder : MonoBehaviour
                     pathRenderer.SetPosition(i, pathToEnd[i].m_origin);
                 }
             }
+            */
 
         }
     }

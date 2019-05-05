@@ -5,16 +5,18 @@ using UnityEngine;
 public class Enemy : MovingObject
 {
     public int playerDamage;
+    public AudioClip enemyAttack1;
+    public AudioClip enemyAttack2;
 
     private Animator animator;
     private Transform target;
     private bool skipMove;
-
     private PathFinder pathFinder;
 
     // Start is called before the first frame update
     protected override void Start()
     {
+        GameManager.instance.RegisterEnemy(this);
         animator = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -27,7 +29,7 @@ public class Enemy : MovingObject
     // Update is called once per frame
     void Update()
     {
-        MoveEnemy();
+        
     }
 
     protected override void AttemptMove<T>(int xDir, int yDir)
@@ -70,8 +72,11 @@ public class Enemy : MovingObject
     {
         Player hitPlayer = component as Player;
 
+        Debug.Log("hitplayer");
+
         hitPlayer.LoseFood(playerDamage);
 
         animator.SetTrigger("EnemyAttack");
+        SoundManager.instance.RandomizeSfx(enemyAttack1, enemyAttack2);
     }
 }

@@ -97,7 +97,7 @@ public class BoardManager : MonoBehaviour
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
         /*
-        // DEVELOPING
+        // DEVELOPING 
         LayoutDebugging(enemyTiles[0], new Vector3(8f, 8f, 0f));
         LayoutDebugging(enemyTiles[0], new Vector3(7f, 8f, 0f));
         LayoutDebugging(enemyTiles[0], new Vector3(6f, 8f, 0f));

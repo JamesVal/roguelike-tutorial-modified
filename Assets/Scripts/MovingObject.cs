@@ -49,15 +49,15 @@ public abstract class MovingObject : MonoBehaviour
         else if (hit.distance > .1f)
         {
             //Debug.Log("CLOSE MOVE");
-            Debug.Log("Pos" + transform.position);
-            Debug.Log("Hit Dist:" + hit.distance);
+            //Debug.Log("Pos" + transform.position);
+            //Debug.Log("Hit Dist:" + hit.distance);
             if (xDir != 0) end = start + new Vector2((xDir < 0) ? hit.distance * -1f : hit.distance, 0);
             else if (yDir != 0) end = start + new Vector2(0, (yDir < 0 ) ? hit.distance * -1f : hit.distance);
             StartCoroutine(SmoothMovement(end));
             return true;
         }
-        Debug.Log("Hit Dist:" + hit.distance);
-        Debug.Log("NO MOVE");
+        //Debug.Log("Hit Dist:" + hit.distance);
+        //Debug.Log("NO MOVE");
         return false;
     }   
 
